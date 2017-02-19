@@ -1,0 +1,11 @@
+<h1>项目 | <%=link_to '动态', events_path %> | 日历 | 周报 | 团队 | 我自己 | 知人</h1>
+all events
+<div id="events" data-last_id= "<%= @events.first&.id%>" >
+  <%@events.each do |event| %>
+    <%= render event %>
+  <%end%>
+</div>
+
+  <script type="text/javascript">
+    startRefreshMessages();
+  </script>
