@@ -14,24 +14,3 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
-
-
-var refreshMessages =  (function(){
-  var now = new Date().getTime();
-  return function(){
-    $.get('/events', {now: now, last_id: $('#events').data('last_id') }, function(response){
-      now = response.now;
-      $.each(response.events, function() {
-        $('#events').prepend("<div class='event_"+ this.id +"'> "+ this.message +" </div>");
-      });
-      if(response.last_id != undefined){
-        $('#events').data('last_id', response.last_id);
-      }
-    }, 'json');
-  }
-  console.log('request event');
-})();
-var startRefreshMessages = function(){
-  refreshMessages();
-  setInterval(refreshMessages, 5 * 1000);
-}
