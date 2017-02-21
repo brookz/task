@@ -5,25 +5,11 @@ class Event < ApplicationRecord
   after_create :send_to_client
 
   def send_to_client
-    # EventNotificationJob.perform_later(self)
     ActionCable.server.broadcast "receiver:#{user.id}", 
-      { title: 'New things!', body: 'All the news that is fit to print' }
-
-    # EventsChannel.broadcast_to(
-    #   user,
-    #   title: 'New things!',
-    #   body: 'All the news fit to print'
-    # )
-    puts "=== action cable broadcast ==="
+      {
+        id: id, name: user.name, action: I18n.t(action), 
+        title: entity.title, created_at: created_at.to_s(:short)
+      }
   end
 
-  def to_message
-    { id: id,
-      message: message
-    }
-  end
-
-  def message
-    "#{entity_type}, #{entity_id}, #{entity.title}"
-  end
 end

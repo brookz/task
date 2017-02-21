@@ -9,6 +9,14 @@ App.events = App.cable.subscriptions.create "EventsChannel",
 
   received: (data) ->
     # Called when there's incoming data on the websocket for this channel
+    events = $('#events')
+    content = "<div id='event_"
+    content += data['id'] + "'>"
+    content += data['created_at']+","
+    content += data['name']+","
+    content += data['action']+","
+    content += data["title"]
+    content += "</div>"
+    events.prepend content
     console.log 'received'
-    # console.log data["title"]
-    # new Notification data["title"], body: data["body"]
+
